@@ -248,7 +248,7 @@
     .v-dot.active { background: var(--accent); transform: scale(1.3); }
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinning { animation: spin 0.8s linear infinite; }
-<base target="_blank">
+  </style>
 </head>
 <body>
 
@@ -784,6 +784,129 @@
     </div>
   </section>
 
+  <!-- JAVASCRIPT PRINCIPAL -->
+  <script>
+  /* THEME */
+  const themeToggle = document.getElementById('themeToggle');
+  const sunIcon = document.getElementById('sunIcon');
+  const moonIcon = document.getElementById('moonIcon');
+  const html = document.documentElement;
+  const savedTheme = localStorage.getItem('theme');
+  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  function setTheme(dark) {
+    if (dark) { html.classList.add('dark'); if(sunIcon)sunIcon.style.display='block'; if(moonIcon)moonIcon.style.display='none'; }
+    else { html.classList.remove('dark'); if(sunIcon)sunIcon.style.display='none'; if(moonIcon)moonIcon.style.display='block'; }
+    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  }
+  setTheme(savedTheme ? savedTheme === 'dark' : systemDark);
+  themeToggle?.addEventListener('click', () => setTheme(!html.classList.contains('dark')));
+
+  /* LOADER */
+  window.addEventListener('load', () => {
+    const loader = document.getElementById('loader');
+    if (!loader) return;
+    setTimeout(() => { loader.classList.add('hidden'); initReveal(); }, 900);
+  });
+
+  /* NAVBAR */
+  const navbar = document.getElementById('navbar');
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  window.addEventListener('scroll', () => {
+    if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 60);
+    updateActiveNav();
+    updateBackToTop();
+  });
+  navToggle?.addEventListener('click', () => { navToggle.classList.toggle('open'); navLinks?.classList.toggle('open'); });
+  document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => { navToggle?.classList.remove('open'); navLinks?.classList.remove('open'); });
+  });
+  function updateActiveNav() {
+    const sections = document.querySelectorAll('section[id]');
+    let current = '';
+    sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) current = s.id; });
+    document.querySelectorAll('.nav-links a').forEach(a => { a.classList.toggle('active', a.getAttribute('href') === '#' + current); });
+  }
+
+  /* SCROLL REVEAL */
+  function initReveal() {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const delay = el.dataset.delay || 0;
+        setTimeout(() => {
+          el.classList.add('visible');
+          if (el.classList.contains('skill-group')) animateSkills(el);
+          if (el.querySelector('.lang-fill')) animateLangs(el);
+        }, delay);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  }
+
+  /* SKILL BARS */
+  function animateSkills(group) {
+    group.querySelectorAll('.skill-item').forEach((item, i) => {
+      const fill = item.querySelector('.si-fill');
+      const level = item.dataset.level || 0;
+      if (!fill) return;
+      setTimeout(() => { fill.style.width = level + '%'; }, i * 80);
+    });
+  }
+  const skillObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) { animateSkills(entry.target); skillObs.unobserve(entry.target); } });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.skill-group').forEach(g => skillObs.observe(g));
+
+  /* LANG BARS */
+  function animateLangs(container) {
+    container.querySelectorAll('.lang-fill').forEach((fill, i) => { setTimeout(() => fill.classList.add('animated'), 200 + i * 100); });
+  }
+  const langObs = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) { animateLangs(entry.target); langObs.unobserve(entry.target); } });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('.info-block').forEach(el => { if (el.querySelector('.lang-fill')) langObs.observe(el); });
+
+  /* CONTACT FORM */
+  const form = document.getElementById('contactForm');
+  const formSuccess = document.getElementById('formSuccess');
+  form?.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const data = Object.fromEntries(new FormData(form));
+    if (!data.nom?.trim() || !data.email?.trim() || !data.message?.trim()) {
+      form.style.animation = 'none'; void form.offsetHeight; form.style.animation = 'shake 0.4s ease'; return;
+    }
+    const btn = form.querySelector('button[type="submit"]');
+    btn.disabled = true; btn.textContent = 'Envoi en cours...';
+    setTimeout(() => {
+      if (formSuccess) formSuccess.style.display = 'block';
+      form.reset(); btn.disabled = false; btn.textContent = 'Envoyer le message';
+      setTimeout(() => { if (formSuccess) formSuccess.style.display = 'none'; }, 5000);
+    }, 1200);
+  });
+
+  /* BACK TO TOP */
+  const backToTop = document.getElementById('backToTop');
+  function updateBackToTop() { backToTop?.classList.toggle('visible', window.scrollY > 400); }
+  backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  /* SMOOTH SCROLL */
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const id = a.getAttribute('href');
+      if (id === '#') return;
+      e.preventDefault();
+      const target = document.querySelector(id);
+      if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
+    });
+  });
+
+  updateBackToTop(); updateActiveNav();
+  </script>
+
+  <!-- VEILLE SCRIPT -->
   <script>
   const VEILLE = [
     {source:"CERT-FR",cat:"securite",sev:"critical",date:"2026-05-03",title:"Vulnérabilité critique dans Cisco IOS XE (CVE-2025-1234)",summary:"Faille buffer overflow permettant l'exécution de code à distance sur routeurs Cisco. Patch disponible, mise à jour urgente.",tags:["Cisco","CVE","Réseau"],url:"https://www.cert.ssi.gouv.fr/"},
