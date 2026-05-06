@@ -13,6 +13,14 @@
       --accent: #60a5fa; --accent-light: rgba(59,130,246,0.1);
       --grad-a: #60a5fa; --grad-b: #818cf8;
     }
+    .light {
+      --bg: #fafafa; --bg-card: #ffffff; --border: #e4e4e7;
+      --text: #18181b; --text-sec: #52525b; --text-muted: #a1a1aa;
+      --accent: #3b82f6; --accent-light: #eff6ff;
+      --grad-a: #3b82f6; --grad-b: #6366f1;
+    }
+    .theme-btn { width: 38px; height: 38px; border-radius: 50%; border: 1px solid var(--border); background: var(--bg-card); color: var(--text-sec); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all .3s; }
+    .theme-btn:hover { background: var(--accent-light); color: var(--accent); border-color: var(--accent); }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
     a { text-decoration: none; }
@@ -41,11 +49,38 @@
 
   <nav>
     <span class="brand">TR<span>.</span></span>
-    <a href="index.html" class="back">
-      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      Retour
-    </a>
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" aria-label="Changer le thème">
+        <svg id="sunIco" style="display:none" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2m0 18v2M4.22 4.22l1.42 1.42m12.72 12.72 1.42 1.42M1 12h2m18 0h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <svg id="moonIco" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <a href="index.html" class="back">
+        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Retour
+      </a>
+    </div>
   </nav>
+
+  <script>
+    const html = document.documentElement;
+    const sun = document.getElementById('sunIco');
+    const moon = document.getElementById('moonIco');
+
+    function applyTheme(light) {
+      html.classList.toggle('light', light);
+      sun.style.display = light ? 'block' : 'none';
+      moon.style.display = light ? 'none' : 'block';
+    }
+
+    function toggleTheme() {
+      const isLight = html.classList.contains('light');
+      localStorage.setItem('theme', isLight ? 'dark' : 'light');
+      applyTheme(!isLight);
+    }
+
+    // Sync avec le thème sauvegardé par index.html
+    applyTheme(localStorage.getItem('theme') === 'light');
+  </script>
 
   <div class="header"><h1>Mes CV</h1></div>
 
@@ -59,7 +94,7 @@
           <div class="cv-sub">Réseau · Cybersécurité · Admin sys</div>
         </div>
       </div>
-      <a href="Tyron-Raymond-cv.pdf" download="Tyron-Raymond-cv.pdf" class="btn-dl">
+      <a href="Tyron-Raymond-cv_pdf.pdf" download="CV-Tyron-Raymond-SISR.pdf" class="btn-dl">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
         PDF
       </a>
