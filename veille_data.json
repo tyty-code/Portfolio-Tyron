@@ -1,0 +1,122 @@
+{
+  "last_update": "2026-05-05T11:07:34.127099",
+  "sources": [
+    {
+      "source": "CERT-FR",
+      "category": "securite",
+      "items": [
+        {
+          "title": "Vulnerabilite critique CVE-2025-1234 dans Cisco IOS",
+          "date": "2026-05-03",
+          "summary": "Une vulnerabilite de type buffer overflow permet l'execution de code a distance sur les routeurs Cisco. Mise a jour urgente recommandee.",
+          "url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2025-1234/",
+          "tech_mentioned": [
+            "Cisco",
+            "Reseau"
+          ],
+          "severity": "critical"
+        },
+        {
+          "title": "Nouvelle campagne de phishing ciblant les entreprises francaises",
+          "date": "2026-04-30",
+          "summary": "Utilisation de faux emails de facturation avec pieces jointes malveillantes exploitant CVE-2017-11882.",
+          "url": "https://www.cert.ssi.gouv.fr/alerte/CERTFR-2025-1235/",
+          "tech_mentioned": [
+            "Securite",
+            "Phishing"
+          ],
+          "severity": "high"
+        }
+      ]
+    },
+    {
+      "source": "Centreon",
+      "category": "supervision",
+      "items": [
+        {
+          "title": "Centreon 24.04 : nouvelle interface et autodiscovery amelioree",
+          "date": "2026-05-02",
+          "summary": "Sortie de la version 24.04 avec interface modernisee, decouverte automatique des equipements et integration Docker native.",
+          "url": "https://www.centreon.com/blog/centreon-24-04-release/",
+          "tech_mentioned": [
+            "Centreon",
+            "Supervision"
+          ],
+          "severity": "info"
+        },
+        {
+          "title": "Migration de Nagios vers Centreon : guide pas a pas",
+          "date": "2026-04-28",
+          "summary": "Tutoriel complet pour migrer une infrastructure Nagios existante vers Centreon avec conservation des configurations.",
+          "url": "https://www.centreon.com/blog/migration-nagios-centreon/",
+          "tech_mentioned": [
+            "Centreon",
+            "Nagios"
+          ],
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "source": "pfSense",
+      "category": "firewall",
+      "items": [
+        {
+          "title": "pfSense 2.7.2 : correctifs de securite WireGuard",
+          "date": "2026-05-04",
+          "summary": "Mise a jour urgente corrigeant plusieurs vulnerabilites dans le module WireGuard. Mise a jour recommandee pour tous les utilisateurs.",
+          "url": "https://www.netgate.com/blog/pfsense-2-7-2-release/",
+          "tech_mentioned": [
+            "pfSense",
+            "VPN",
+            "WireGuard"
+          ],
+          "severity": "high"
+        }
+      ]
+    },
+    {
+      "source": "Wazuh",
+      "category": "securite",
+      "items": [
+        {
+          "title": "Wazuh 4.8.0 : nouveau module XDR et amelioration SIEM",
+          "date": "2026-05-01",
+          "summary": "Nouvelle version majeure avec capacites XDR etendues, integration cloud amelioree et nouveaux rulesets pour la detection d'intrusion.",
+          "url": "https://wazuh.com/blog/wazuh-4-8-0-release/",
+          "tech_mentioned": [
+            "Wazuh",
+            "SIEM",
+            "XDR"
+          ],
+          "severity": "info"
+        }
+      ]
+    },
+    {
+      "source": "Ansible",
+      "category": "automatisation",
+      "items": [
+        {
+          "title": "Ansible 2.16 : support ameliore pour Windows et reseau",
+          "date": "2026-04-29",
+          "summary": "Nouveaux modules pour la gestion des equipements reseau Cisco et amelioration du support Windows avec WinRM.",
+          "url": "https://www.ansible.com/blog/ansible-2-16-network-windows",
+          "tech_mentioned": [
+            "Ansible",
+            "Automatisation",
+            "Cisco"
+          ],
+          "severity": "info"
+        }
+      ]
+    }
+  ],
+  "stats": {
+    "total_items": 7,
+    "critical": 1,
+    "high": 2,
+    "info": 4,
+    "last_7_days": 7
+  }
+}

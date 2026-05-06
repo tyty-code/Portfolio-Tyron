@@ -1,0 +1,128 @@
+{
+  "sources": {
+    "cert_fr": {
+      "name": "CERT-FR",
+      "url": "https://www.cert.ssi.gouv.fr/",
+      "rss": "https://www.cert.ssi.gouv.fr/feed/",
+      "type": "rss",
+      "category": "securite",
+      "active": true
+    },
+    "cve_details": {
+      "name": "CVE Details",
+      "url": "https://www.cvedetails.com/",
+      "api": "https://www.cvedetails.com/json-feed.php",
+      "type": "api",
+      "category": "vulnerabilites",
+      "active": true
+    },
+    "anssi": {
+      "name": "ANSSI",
+      "url": "https://www.ssi.gouv.fr/",
+      "rss": "https://www.ssi.gouv.fr/feed/actualites/",
+      "type": "rss",
+      "category": "securite",
+      "active": true
+    },
+    "cisco_security": {
+      "name": "Cisco Security",
+      "url": "https://tools.cisco.com/security/center/publicationListing.x",
+      "rss": "https://tools.cisco.com/security/center/psirtrss20/SecurityAdvisory.xml",
+      "type": "rss",
+      "category": "reseau",
+      "active": true
+    },
+    "centreon_blog": {
+      "name": "Centreon Blog",
+      "url": "https://www.centreon.com/blog/",
+      "rss": "https://www.centreon.com/feed/",
+      "type": "rss",
+      "category": "supervision",
+      "active": true
+    },
+    "pfsense_blog": {
+      "name": "pfSense News",
+      "url": "https://www.netgate.com/blog/",
+      "rss": "https://www.netgate.com/blog/rss.xml",
+      "type": "rss",
+      "category": "firewall",
+      "active": true
+    },
+    "ansible_blog": {
+      "name": "Ansible Blog",
+      "url": "https://www.ansible.com/blog",
+      "rss": "https://www.ansible.com/blog/rss.xml",
+      "type": "rss",
+      "category": "automatisation",
+      "active": true
+    },
+    "wazuh_blog": {
+      "name": "Wazuh Blog",
+      "url": "https://wazuh.com/blog/",
+      "rss": "https://wazuh.com/blog/feed/",
+      "type": "rss",
+      "category": "securite",
+      "active": true
+    }
+  },
+  "technologies_followed": [
+    {
+      "name": "Centreon",
+      "keywords": [
+        "centreon",
+        "monitoring",
+        "supervision"
+      ],
+      "category": "supervision"
+    },
+    {
+      "name": "ALCASAR",
+      "keywords": [
+        "alcasar",
+        "portail captif",
+        "nac"
+      ],
+      "category": "securite"
+    },
+    {
+      "name": "pfSense",
+      "keywords": [
+        "pfsense",
+        "firewall",
+        "opnsense"
+      ],
+      "category": "firewall"
+    },
+    {
+      "name": "Wireshark",
+      "keywords": [
+        "wireshark",
+        "analyse reseau",
+        "pcap"
+      ],
+      "category": "analyse"
+    },
+    {
+      "name": "Ansible",
+      "keywords": [
+        "ansible",
+        "automatisation",
+        "iac"
+      ],
+      "category": "automatisation"
+    },
+    {
+      "name": "Wazuh",
+      "keywords": [
+        "wazuh",
+        "siem",
+        "xdr",
+        "ids"
+      ],
+      "category": "securite"
+    }
+  ],
+  "update_interval_hours": 24,
+  "max_items_per_source": 5,
+  "output_file": "veille_data.json"
+}
