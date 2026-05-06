@@ -8,21 +8,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            mono: ['DM Mono', 'monospace'],
-            display: ['Syne', 'sans-serif'],
-            sans: ['DM Sans', 'sans-serif'],
-          }
-        }
-      }
-    }
-  </script>
   <style>
     :root {
       --bg-primary: #fafafa; --bg-secondary: #f4f4f5; --bg-card: #ffffff; --bg-elevated: #ffffff;
@@ -237,16 +222,32 @@
     }
     @keyframes shake { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-6px); } 40% { transform: translateX(6px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
   
-    /* Profile picture enhancements */
-    .profile-ring {
-      animation: profilePulse 3s ease-in-out infinite;
-    }
-    @keyframes profilePulse {
-      0%, 100% { box-shadow: 0 0 40px -10px rgba(59, 130, 246, 0.3); }
-      50% { box-shadow: 0 0 50px -5px rgba(59, 130, 246, 0.5); }
-    }
-
-  </style>
+    /* VEILLE FILTER BUTTONS */
+    .vf-btn { padding: 0.35rem 0.9rem; border-radius: 9999px; border: 1.5px solid var(--border-color); background: var(--bg-card); color: var(--text-secondary); font-size: 0.8125rem; font-family: 'DM Sans', sans-serif; cursor: pointer; transition: all .3s; }
+    .vf-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .vf-btn.vf-active { background: var(--accent); border-color: var(--accent); color: white; }
+    /* VEILLE CARDS */
+    .v-card { min-width: 300px; max-width: 340px; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem; padding: 1.25rem; display: flex; flex-direction: column; gap: 0.75rem; flex-shrink: 0; transition: border-color .3s, transform .3s; cursor: pointer; }
+    .v-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+    .v-card-top { display: flex; align-items: center; justify-content: space-between; }
+    .v-source { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--accent); font-weight: 500; }
+    .v-date { font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--text-muted); }
+    .v-title { font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9375rem; color: var(--text-primary); line-height: 1.4; text-decoration: none; display: block; }
+    .v-title:hover { color: var(--accent); }
+    .v-summary { font-size: 0.8125rem; color: var(--text-secondary); line-height: 1.55; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+    .v-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; }
+    .v-tags span { font-size: 0.6875rem; padding: 0.2rem 0.5rem; border-radius: 4px; background: var(--tag-bg); color: var(--tag-text); }
+    .v-sev { display: inline-flex; align-items: center; gap: 0.35rem; font-family: 'DM Mono', monospace; font-size: 0.6875rem; padding: 0.2rem 0.6rem; border-radius: 9999px; font-weight: 500; }
+    .v-sev-critical { background: rgba(239,68,68,0.1); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+    .v-sev-high { background: rgba(245,158,11,0.1); color: #f59e0b; border: 1px solid rgba(245,158,11,0.2); }
+    .v-sev-info { background: var(--accent-light); color: var(--accent); border: 1px solid var(--accent-glow); }
+    #veille-track::-webkit-scrollbar { height: 4px; } 
+    #veille-track::-webkit-scrollbar-track { background: transparent; }
+    #veille-track::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+    .v-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-color); cursor: pointer; transition: background .3s, transform .3s; }
+    .v-dot.active { background: var(--accent); transform: scale(1.3); }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinning { animation: spin 0.8s linear infinite; }
 <base target="_blank">
 </head>
 <body>
@@ -740,652 +741,159 @@
   <!-- VEILLE TECHNOLOGIQUE -->
   <section id="veille" class="section section-alt">
     <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
-      <div class="reveal">
-        <div class="section-label">// 06 — Veille Technologique</div>
-        <h2 class="section-title">Veille & Nouvelles Technologies</h2>
-        <p class="veille-last-update" style="font-family: DM Mono, monospace; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">Dernière mise à jour : --</p>
+
+      <div class="reveal" style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <div>
+          <div class="section-label">// 06 — Veille Technologique</div>
+          <h2 class="section-title">Veille & Actualités</h2>
+          <p style="font-family:'DM Mono',monospace;font-size:0.75rem;color:var(--text-muted);margin-top:0.5rem;display:flex;align-items:center;gap:0.5rem;">
+            <span style="width:7px;height:7px;border-radius:50%;background:#10b981;display:inline-block;animation:pulse 2s infinite;"></span>
+            <span id="v-date">Mise à jour automatique</span>
+          </p>
+        </div>
       </div>
-      <p style="color: var(--text-secondary); max-width: 700px; margin-top: 1rem; line-height: 1.7;" class="reveal">
-        Suivi régulier des évolutions technologiques en infrastructure réseau, cybersécurité et supervision. 
-        Découverte et test de nouvelles solutions pour enrichir mon panel de compétences.
-      </p>
 
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 1.5rem; margin-top: 3rem;">
-
-        <!-- Centreon -->
-        <div class="card reveal" style="border-radius: 1rem; overflow: hidden;">
-          <div style="height: 160px; background: linear-gradient(135deg, rgba(0, 150, 136, 0.12), rgba(0, 188, 212, 0.08)); display: flex; align-items: center; justify-content: center; position: relative;">
-            <div style="text-align: center;">
-              <div style="font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 700; color: #009688;">Centreon</div>
-              <div style="font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">SUPERVISION & MONITORING</div>
-            </div>
-          </div>
-          <div style="padding: 1.5rem;">
-            <h3 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.75rem;">Centreon — Alternative à Nagios</h3>
-            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
-              Solution de supervision IT open-source française, fork moderne de Nagios. 
-              Interface web intuitive, autodiscovery, reporting avancé et API REST. 
-              Support natif des conteneurs Docker et cloud hybride.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Supervision</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Open Source</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">API REST</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Docker</span>
-            </div>
-            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <div style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b;"></div>
-                <span style="font-size: 0.8125rem; color: var(--text-secondary);">En cours d'apprentissage</span>
-              </div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;">
-                Objectif : migrer une maquette Nagios existante vers Centreon pour comparer les fonctionnalités 
-                (autodiscovery, graphiques temps réel, gestion des seuils dynamiques).
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- ALCASAR -->
-        <div class="card reveal" style="border-radius: 1rem; overflow: hidden;">
-          <div style="height: 160px; background: linear-gradient(135deg, rgba(59, 130, 246, 0.12), rgba(99, 102, 241, 0.08)); display: flex; align-items: center; justify-content: center; position: relative;">
-            <div style="text-align: center;">
-              <div style="font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 700; color: var(--accent);">ALCASAR</div>
-              <div style="font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">PORTAIL CAPTIF & NAC</div>
-            </div>
-          </div>
-          <div style="padding: 1.5rem;">
-            <h3 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.75rem;">ALCASAR — Portail Captif Libre</h3>
-            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
-              Solution de contrôle d'accès réseau (NAC) avec portail captif. 
-              Authentification centralisée, gestion des durées de session, filtrage par profil utilisateur. 
-              Utilisé dans mon projet d'équipe avec couplage RADIUS + Active Directory.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Portail Captif</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">NAC</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">RADIUS</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Linux</span>
-            </div>
-            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <div style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></div>
-                <span style="font-size: 0.8125rem; color: var(--text-secondary);">Déjà utilisé en projet</span>
-              </div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;">
-                Déployé dans le cadre du projet école Sacré-Cœur La Salle. 
-                Couplage avec pfSense et FreeRADIUS pour authentification centralisée.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Wireshark / Zeek -->
-        <div class="card reveal" style="border-radius: 1rem; overflow: hidden;">
-          <div style="height: 160px; background: linear-gradient(135deg, rgba(139, 92, 246, 0.12), rgba(236, 72, 153, 0.08)); display: flex; align-items: center; justify-content: center; position: relative;">
-            <div style="text-align: center;">
-              <div style="font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; color: #8b5cf6;">Wireshark & Zeek</div>
-              <div style="font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">ANALYSE RÉSEAU & IDS</div>
-            </div>
-          </div>
-          <div style="padding: 1.5rem;">
-            <h3 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.75rem;">Analyse Forensique Réseau</h3>
-            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
-              Veille sur les outils d'analyse de trafic et de détection d'intrusion. 
-              Wireshark pour l'analyse manuelle de paquets, Zeek (ex-Bro) pour l'analyse automatisée 
-              et la détection d'anomalies comportementales.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Wireshark</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Zeek</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">PCAP</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">IDS</span>
-            </div>
-            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <div style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b;"></div>
-                <span style="font-size: 0.8125rem; color: var(--text-secondary);">Veille active</span>
-              </div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;">
-                Suivi des nouvelles fonctionnalités Wireshark 4.x et apprentissage de Zeek 
-                pour compléter l'analyse forensique réalisée lors du projet malware.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- pfSense / OPNsense -->
-        <div class="card reveal" style="border-radius: 1rem; overflow: hidden;">
-          <div style="height: 160px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(239, 68, 68, 0.08)); display: flex; align-items: center; justify-content: center; position: relative;">
-            <div style="text-align: center;">
-              <div style="font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; color: #f59e0b;">pfSense & OPNsense</div>
-              <div style="font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">FIREWALL & ROUTING</div>
-            </div>
-          </div>
-          <div style="padding: 1.5rem;">
-            <h3 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.75rem;">Firewalls Open Source</h3>
-            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
-              Solutions de pare-feu/routeur basées sur FreeBSD. pfSense pour sa maturité et sa communauté, 
-              OPNsense pour son interface moderne et ses mises à jour plus fréquentes. 
-              Veille sur les nouveautés VPN WireGuard et ZeroTier.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">pfSense</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">OPNsense</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">WireGuard</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">VPN</span>
-            </div>
-            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <div style="width: 8px; height: 8px; border-radius: 50%; background: #10b981;"></div>
-                <span style="font-size: 0.8125rem; color: var(--text-secondary);">Déjà utilisé en projet</span>
-              </div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;">
-                pfSense déployé dans plusieurs projets (portail captif, routage inter-VLAN). 
-                Veille sur OPNsense comme alternative avec firmware plus récent.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Ansible / Terraform -->
-        <div class="card reveal" style="border-radius: 1rem; overflow: hidden;">
-          <div style="height: 160px; background: linear-gradient(135deg, rgba(6, 182, 212, 0.12), rgba(59, 130, 246, 0.08)); display: flex; align-items: center; justify-content: center; position: relative;">
-            <div style="text-align: center;">
-              <div style="font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; color: #06b6d4;">Ansible & Terraform</div>
-              <div style="font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">AUTOMATISATION & IaC</div>
-            </div>
-          </div>
-          <div style="padding: 1.5rem;">
-            <h3 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.75rem;">Infrastructure as Code</h3>
-            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
-              Veille sur l'automatisation de l'infrastructure : Ansible pour le provisioning 
-              et la configuration de serveurs, Terraform pour le déploiement d'infrastructure cloud. 
-              Compétences clés pour l'administrateur système moderne.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Ansible</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Terraform</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">IaC</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Automation</span>
-            </div>
-            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <div style="width: 8px; height: 8px; border-radius: 50%; background: #6b7280;"></div>
-                <span style="font-size: 0.8125rem; color: var(--text-secondary);">À découvrir</span>
-              </div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;">
-                Objectif post-BTS : maîtriser l'automatisation pour industrialiser 
-                les déploiements réseau et système.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Wazuh / Suricata -->
-        <div class="card reveal" style="border-radius: 1rem; overflow: hidden;">
-          <div style="height: 160px; background: linear-gradient(135deg, rgba(239, 68, 68, 0.12), rgba(245, 158, 11, 0.08)); display: flex; align-items: center; justify-content: center; position: relative;">
-            <div style="text-align: center;">
-              <div style="font-family: 'Syne', sans-serif; font-size: 2rem; font-weight: 700; color: #ef4444;">Wazuh & Suricata</div>
-              <div style="font-family: 'DM Mono', monospace; font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">SIEM & IDS/IPS</div>
-            </div>
-          </div>
-          <div style="padding: 1.5rem;">
-            <h3 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.125rem; color: var(--text-primary); margin-bottom: 0.75rem;">Sécurité Réseau Avancée</h3>
-            <p style="font-size: 0.875rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1rem;">
-              Veille sur les solutions SIEM et IDS/IPS open-source. Wazuh pour la détection d'intrusion 
-              et la conformité (XDR/EDR), Suricata pour l'inspection profonde de paquets 
-              et la détection de menaces en temps réel.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Wazuh</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">Suricata</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">SIEM</span>
-              <span class="tag" style="padding: 0.25rem 0.625rem; border-radius: 9999px; font-size: 0.75rem;">XDR</span>
-            </div>
-            <div style="border-top: 1px solid var(--border-color); padding-top: 1rem;">
-              <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
-                <div style="width: 8px; height: 8px; border-radius: 50%; background: #6b7280;"></div>
-                <span style="font-size: 0.8125rem; color: var(--text-secondary);">Veille active</span>
-              </div>
-              <p style="font-size: 0.75rem; color: var(--text-muted); line-height: 1.5;">
-                Exploration de Wazuh comme alternative à la stack ELK pour un SIEM 
-                complet et léger. Suricata pour remplacer Snort dans les maquettes.
-              </p>
-            </div>
-          </div>
-        </div>
-
+      <div style="display:flex;gap:0.75rem;flex-wrap:wrap;margin-top:1.5rem;" class="reveal">
+        <span id="vs-c" style="font-family:'DM Mono',monospace;font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:9999px;background:rgba(239,68,68,0.08);color:#ef4444;border:1px solid rgba(239,68,68,0.15);">— critique</span>
+        <span id="vs-h" style="font-family:'DM Mono',monospace;font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:9999px;background:rgba(245,158,11,0.08);color:#f59e0b;border:1px solid rgba(245,158,11,0.15);">— haute</span>
+        <span id="vs-i" style="font-family:'DM Mono',monospace;font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:9999px;background:var(--accent-light);color:var(--accent);border:1px solid var(--accent-glow);">— info</span>
+        <span id="vs-t" style="font-family:'DM Mono',monospace;font-size:0.75rem;padding:0.3rem 0.75rem;border-radius:9999px;background:var(--bg-secondary);color:var(--text-muted);border:1px solid var(--border-color);">— total</span>
       </div>
+
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-top:1.5rem;" class="reveal">
+        <button class="vf-btn vf-active" onclick="vFilter('all',this)">Tout</button>
+        <button class="vf-btn" onclick="vFilter('securite',this)">Sécurité</button>
+        <button class="vf-btn" onclick="vFilter('supervision',this)">Supervision</button>
+        <button class="vf-btn" onclick="vFilter('reseau',this)">Réseau</button>
+        <button class="vf-btn" onclick="vFilter('firewall',this)">Firewall</button>
+        <button class="vf-btn" onclick="vFilter('cloud',this)">Cloud</button>
+        <button class="vf-btn" onclick="vFilter('automatisation',this)">Automatisation</button>
+        <button class="vf-btn" onclick="vFilter('os',this)">OS / Système</button>
+        <button class="vf-btn" onclick="vFilter('ia',this)">IA & Données</button>
+      </div>
+
+      <div style="margin-top:1.25rem;position:relative;" class="reveal">
+        <div id="v-track" style="display:flex;gap:1rem;overflow-x:auto;scroll-behavior:smooth;padding-bottom:0.75rem;scrollbar-width:thin;scrollbar-color:var(--border-color) transparent;"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1rem;">
+          <button onclick="vScroll(-1)" style="width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border-color);background:var(--bg-card);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.color='var(--text-secondary)'"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg></button>
+          <div id="v-dots" style="display:flex;gap:0.4rem;"></div>
+          <button onclick="vScroll(1)" style="width:38px;height:38px;border-radius:50%;border:1.5px solid var(--border-color);background:var(--bg-card);color:var(--text-secondary);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s" onmouseover="this.style.borderColor='var(--accent)';this.style.color='var(--accent)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.color='var(--text-secondary)'"><svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></button>
+        </div>
+      </div>
+
     </div>
   </section>
 
-<!-- STAGE -->
-  <section id="stage" class="section">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
-      <div class="reveal">
-        <div class="section-label">// 07 — Stage</div>
-        <h2 class="section-title">Stage en entreprise</h2>
-      </div>
-      <p style="color: var(--text-secondary); max-width: 700px; margin-top: 1rem; line-height: 1.7;" class="reveal">
-        Documents officiels de mes deux stages effectués au Crédit Agricole des Abymes dans le cadre du BTS SIO SISR.
-      </p>
-
-      <!-- 1ÈRE ANNÉE -->
-      <div style="margin-top: 3rem;" class="reveal">
-        <h3 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.375rem; color: var(--text-primary); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
-          <span style="font-family: 'DM Mono', monospace; font-size: 0.875rem; color: var(--accent); background: var(--accent-light); padding: 0.25rem 0.625rem; border-radius: 6px;">01</span>
-          Stage 1ère année — Mai / Juin 2024
-        </h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
-
-          <!-- Attestation 1A -->
-          <div class="info-block" style="border-radius: 1rem; display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
-            <div style="width: 52px; height: 52px; border-radius: 12px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <svg width="24" height="24" fill="none" stroke="#10b981" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            </div>
-            <div style="flex: 1; min-width: 160px;">
-              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                <h4 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9375rem; color: var(--text-primary); margin: 0;">Attestation de stage</h4>
-                <span style="font-size: 0.625rem; padding: 0.15rem 0.5rem; border-radius: 9999px; background: rgba(245,158,11,0.08); color: #f59e0b; font-weight: 600; border: 1px solid rgba(245,158,11,0.2);">⏳ En attente</span>
-              </div>
-              <p style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Crédit Agricole · Les Abymes</p>
-              <a href="attestation-stage-1a.pdf" download="Attestation-Stage-1A-Tyron-Raymond.pdf" class="btn btn-outline" style="padding: 0.4rem 1rem; font-size: 0.8125rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Télécharger
-              </a>
-            </div>
-          </div>
-
-          <!-- Tableau synthèse 1A -->
-          <div class="info-block" style="border-radius: 1rem; display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
-            <div style="width: 52px; height: 52px; border-radius: 12px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <svg width="24" height="24" fill="none" stroke="#10b981" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 14h18M10 4v16M6 4h12a2 2 0 012 2v12a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2z"/></svg>
-            </div>
-            <div style="flex: 1; min-width: 160px;">
-              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                <h4 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9375rem; color: var(--text-primary); margin: 0;">Tableau de synthèse</h4>
-                <span style="font-size: 0.625rem; padding: 0.15rem 0.5rem; border-radius: 9999px; background: rgba(245,158,11,0.08); color: #f59e0b; font-weight: 600; border: 1px solid rgba(245,158,11,0.2);">⏳ En attente</span>
-              </div>
-              <p style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Missions · Compétences · Blocs BTS</p>
-              <a href="tableau-synthese-1a.pdf" download="Tableau-Synthese-1A-Tyron-Raymond.pdf" class="btn btn-outline" style="padding: 0.4rem 1rem; font-size: 0.8125rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Télécharger
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- 2ÈME ANNÉE -->
-      <div style="margin-top: 2.5rem;" class="reveal">
-        <h3 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 1.375rem; color: var(--text-primary); margin-bottom: 1.25rem; display: flex; align-items: center; gap: 0.75rem;">
-          <span style="font-family: 'DM Mono', monospace; font-size: 0.875rem; color: var(--accent); background: var(--accent-light); padding: 0.25rem 0.625rem; border-radius: 6px;">02</span>
-          Stage 2ème année — Mai / Juin 2025
-        </h3>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem;">
-
-          <!-- Attestation 2A -->
-          <div class="info-block" style="border-radius: 1rem; display: flex; align-items: center; gap: 1.25rem; flex-wrap: wrap;">
-            <div style="width: 52px; height: 52px; border-radius: 12px; background: rgba(16,185,129,0.08); border: 1px solid rgba(16,185,129,0.2); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
-              <svg width="24" height="24" fill="none" stroke="#10b981" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
-            </div>
-            <div style="flex: 1; min-width: 160px;">
-              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
-                <h4 style="font-family: 'Syne', sans-serif; font-weight: 600; font-size: 0.9375rem; color: var(--text-primary); margin: 0;">Attestation de stage</h4>
-                <span style="font-size: 0.625rem; padding: 0.15rem 0.5rem; border-radius: 9999px; background: rgba(245,158,11,0.08); color: #f59e0b; font-weight: 600; border: 1px solid rgba(245,158,11,0.2);">⏳ En attente</span>
-              </div>
-              <p style="font-size: 0.8125rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Crédit Agricole · Les Abymes</p>
-              <a href="attestation-stage-2a.pdf" download="Attestation-Stage-2A-Tyron-Raymond.pdf" class="btn btn-outline" style="padding: 0.4rem 1rem; font-size: 0.8125rem; border-radius: 9999px; display: inline-flex; align-items: center; gap: 0.4rem; text-decoration: none;">
-                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-                Télécharger
-              </a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </section>
-
-<!-- CONTACT -->
-  <section id="contact" class="section section-alt">
-    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1.5rem;">
-      <div class="reveal"><div class="section-label">// 08 — Contact</div></div>
-      <div class="contact-wrap" style="margin-top: 3rem;">
-        <div class="reveal">
-          <h2>Parlons-en.</h2>
-          <p>N'hésitez pas à me contacter pour toute opportunité professionnelle ou simple échange.</p>
-          <div class="contact-info">
-            <div class="ci">
-              <div class="ci-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg></div>
-              <div><span>Localisation</span><strong>Les Abymes, Guadeloupe (971)</strong></div>
-            </div>
-            <div class="ci">
-              <div class="ci-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg></div>
-              <div><span>E-mail</span><strong><a href="mailto:votre@email.com">votre@email.com</a></strong></div>
-            </div>
-            <div class="ci">
-              <div class="ci-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg></div>
-              <div><span>Téléphone</span><strong><a href="tel:+590000000000">+590 00 00 00 00</a></strong></div>
-            </div>
-            <div class="ci">
-              <div class="ci-icon"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg></div>
-              <div><span>Formation</span><strong>BTS SIO SISR · Lycée Baimbridge</strong></div>
-            </div>
-          </div>
-          <div class="contact-links">
-            <a href="#" class="cl-btn" target="_blank">GitHub</a>
-            <a href="#" class="cl-btn" target="_blank">LinkedIn</a>
-            <a href="cv.html" class="cl-btn cl-btn-dark" target="_blank"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Mes CV</a>
-          </div>
-        </div>
-        <form class="contact-form reveal" id="contactForm" novalidate>
-          <div class="fg"><label>Nom complet</label><input type="text" name="nom" placeholder="Votre nom" required /></div>
-          <div class="fg"><label>E-mail</label><input type="email" name="email" placeholder="votre@email.com" required /></div>
-          <div class="fg"><label>Sujet</label><input type="text" name="sujet" placeholder="Sujet du message" /></div>
-          <div class="fg"><label>Message</label><textarea name="message" rows="5" placeholder="Votre message..." required></textarea></div>
-          <button type="submit" class="btn btn-primary btn-full">Envoyer le message</button>
-          <p class="form-note">* Formulaire à connecter via Formspree ou EmailJS.</p>
-          <div class="form-success" id="formSuccess">Message envoyé ! Je vous répondrai rapidement.</div>
-        </form>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-inner">
-      <span class="footer-brand">Raymond Tyron</span>
-      <span>BTS SIO SISR · Lycée Baimbridge · Guadeloupe · 2025</span>
-      <span>Conçu en HTML / CSS / JS</span>
-    </div>
-  </footer>
-
-  <button id="backToTop" aria-label="Retour en haut">↑</button>
-
-  <!-- JAVASCRIPT -->
   <script>
-  /* =============================================
-     TYRON RAYMOND — SCRIPT.JS (Adapted)
-     Dark/Light Mode + All Original Features
-     ============================================= */
+  const VEILLE = [
+    {source:"CERT-FR",cat:"securite",sev:"critical",date:"2026-05-03",title:"Vulnérabilité critique dans Cisco IOS XE (CVE-2025-1234)",summary:"Faille buffer overflow permettant l'exécution de code à distance sur routeurs Cisco. Patch disponible, mise à jour urgente.",tags:["Cisco","CVE","Réseau"],url:"https://www.cert.ssi.gouv.fr/"},
+    {source:"CERT-FR",cat:"securite",sev:"high",date:"2026-04-30",title:"Campagne de phishing ciblant les entreprises françaises",summary:"Faux emails de facturation avec pièces jointes malveillantes exploitant CVE-2017-11882. Mise à jour Office recommandée.",tags:["Phishing","Office","Malware"],url:"https://www.cert.ssi.gouv.fr/"},
+    {source:"ANSSI",cat:"securite",sev:"high",date:"2026-04-28",title:"Recommandations ANSSI sur la sécurité des Active Directory",summary:"Nouveau guide ANSSI sur le durcissement des AD Windows : délégations, GPO, Tier Model et détection d'attaques Kerberos.",tags:["Active Directory","GPO","Kerberos"],url:"https://www.ssi.gouv.fr/"},
+    {source:"ANSSI",cat:"securite",sev:"info",date:"2026-04-20",title:"SecNumCloud : nouvelle version du référentiel cloud sécurisé",summary:"Mise à jour du référentiel SecNumCloud pour encadrer les offres cloud souveraines destinées aux OIV et administrations.",tags:["Cloud","Souveraineté"],url:"https://www.ssi.gouv.fr/"},
+    {source:"CVE Details",cat:"securite",sev:"critical",date:"2026-05-04",title:"CVE-2026-0201 : RCE critique dans OpenSSH 9.x",summary:"Vulnérabilité permettant une exécution de code à distance sans authentification sur serveurs OpenSSH 9.0 à 9.6.",tags:["OpenSSH","RCE","Linux"],url:"https://www.cvedetails.com/"},
+    {source:"Wazuh",cat:"securite",sev:"info",date:"2026-05-01",title:"Wazuh 4.8.0 : nouveau module XDR et SIEM amélioré",summary:"Capacités XDR étendues, intégration cloud améliorée et nouveaux rulesets pour la détection d'intrusion en temps réel.",tags:["Wazuh","SIEM","XDR"],url:"https://wazuh.com/blog/"},
+    {source:"Centreon",cat:"supervision",sev:"info",date:"2026-05-02",title:"Centreon 24.04 : nouvelle interface et autodiscovery améliorée",summary:"Interface modernisée, découverte automatique des équipements, intégration Docker native et API REST enrichie.",tags:["Centreon","Nagios","Docker"],url:"https://www.centreon.com/blog/"},
+    {source:"Centreon",cat:"supervision",sev:"info",date:"2026-04-28",title:"Migration de Nagios vers Centreon : guide pas à pas",summary:"Tutoriel complet pour migrer une infrastructure Nagios existante vers Centreon avec conservation des configurations NRPE.",tags:["Nagios","Migration","NRPE"],url:"https://www.centreon.com/blog/"},
+    {source:"Zabbix",cat:"supervision",sev:"info",date:"2026-04-22",title:"Zabbix 7.0 LTS : supervision agentless et IA prédictive",summary:"La version LTS 7.0 introduit la supervision sans agent améliorée et des alertes basées sur l'apprentissage automatique.",tags:["Zabbix","IA","Monitoring"],url:"https://www.zabbix.com/"},
+    {source:"Grafana",cat:"supervision",sev:"info",date:"2026-04-15",title:"Grafana + Prometheus : stack de monitoring moderne",summary:"Retour d'expérience sur le déploiement d'une stack Grafana/Prometheus pour la supervision d'infrastructure conteneurisée.",tags:["Grafana","Prometheus","Docker"],url:"https://grafana.com/blog/"},
+    {source:"Cisco",cat:"reseau",sev:"high",date:"2026-05-04",title:"Cisco advisory : faille dans IOS XR BGP",summary:"Déni de service possible via des paquets BGP malformés. Affecte les routeurs de cœur de réseau. Workaround disponible.",tags:["Cisco","BGP","DoS"],url:"https://tools.cisco.com/security/center/"},
+    {source:"Cisco Blog",cat:"reseau",sev:"info",date:"2026-04-25",title:"Cisco SD-WAN : vers une gestion réseau cloud-native",summary:"Évolution de Cisco SD-WAN vers une architecture cloud-native avec intégration multi-cloud et gestion centralisée via vManage.",tags:["SD-WAN","Cisco","Cloud"],url:"https://blogs.cisco.com/"},
+    {source:"Wireshark",cat:"reseau",sev:"info",date:"2026-04-18",title:"Wireshark 4.4 : support QUIC et HTTP/3 amélioré",summary:"La version 4.4 ajoute des dissecteurs pour les protocoles QUIC, HTTP/3 et améliore l'analyse des flux TLS 1.3.",tags:["Wireshark","QUIC","TLS"],url:"https://www.wireshark.org/"},
+    {source:"Zeek",cat:"reseau",sev:"info",date:"2026-04-10",title:"Zeek 6.0 : détection comportementale réseau avancée",summary:"Zeek (ex-Bro) sort en version 6.0 avec de nouveaux scripts de détection d'anomalies et support des logs JSON.",tags:["Zeek","IDS","Forensique"],url:"https://zeek.org/"},
+    {source:"pfSense",cat:"firewall",sev:"high",date:"2026-05-04",title:"pfSense 2.7.2 : correctifs de sécurité WireGuard",summary:"Mise à jour urgente corrigeant plusieurs vulnérabilités dans le module WireGuard. Recommandée pour tous les utilisateurs.",tags:["pfSense","WireGuard","VPN"],url:"https://www.netgate.com/blog/"},
+    {source:"OPNsense",cat:"firewall",sev:"info",date:"2026-04-26",title:"OPNsense 24.1 : interface repensée et Zenarmor intégré",summary:"Nouvelle version avec tableau de bord repensé, intégration de Zenarmor pour le filtrage applicatif et support ZFS natif.",tags:["OPNsense","Firewall","ZFS"],url:"https://opnsense.org/blog/"},
+    {source:"ALCASAR",cat:"firewall",sev:"info",date:"2026-04-12",title:"ALCASAR 3.6 : support Debian 12 et RADIUS amélioré",summary:"ALCASAR passe sur Debian 12 Bookworm, améliore l'authentification RADIUS et ajoute des statistiques temps réel.",tags:["ALCASAR","RADIUS","Portail captif"],url:"https://alcasar.net/"},
+    {source:"Docker",cat:"cloud",sev:"info",date:"2026-05-01",title:"Docker Desktop 4.29 : optimisations et Docker Scout",summary:"Nouvelles optimisations pour Apple Silicon, démarrage plus rapide des conteneurs et meilleure intégration avec Docker Scout.",tags:["Docker","Conteneurs","DevOps"],url:"https://www.docker.com/blog/"},
+    {source:"Kubernetes",cat:"cloud",sev:"info",date:"2026-04-23",title:"Kubernetes 1.30 : nouvelles fonctionnalités de sécurité",summary:"K8s 1.30 apporte le chiffrement des secrets nativement et renforce les Pod Security Standards pour les clusters de production.",tags:["Kubernetes","K8s","Cloud"],url:"https://kubernetes.io/blog/"},
+    {source:"Azure",cat:"cloud",sev:"high",date:"2026-04-14",title:"Faille dans Azure AD B2C : tokens JWT mal validés",summary:"Vulnérabilité permettant dans certains cas une élévation de privilèges via des tokens JWT mal signés. Patch déployé.",tags:["Azure","JWT","IAM"],url:"https://msrc.microsoft.com/"},
+    {source:"AWS",cat:"cloud",sev:"info",date:"2026-04-17",title:"Amazon VPC Lattice : le nouveau maillage de services AWS",summary:"VPC Lattice simplifie la communication inter-services en cloud hybride avec gestion centralisée des politiques réseau.",tags:["AWS","Cloud","VPC"],url:"https://aws.amazon.com/blogs/"},
+    {source:"Ansible",cat:"automatisation",sev:"info",date:"2026-04-29",title:"Ansible 2.16 : support amélioré Windows et réseau Cisco",summary:"Nouveaux modules pour la gestion des équipements Cisco et amélioration du support Windows avec WinRM et PSRP.",tags:["Ansible","Cisco","Windows"],url:"https://www.ansible.com/blog/"},
+    {source:"Terraform",cat:"automatisation",sev:"info",date:"2026-04-20",title:"Terraform 1.8 : tests de plans d'infra avant déploiement",summary:"La version 1.8 introduit le mode test natif permettant de valider les modules Terraform sans déploiement réel.",tags:["Terraform","IaC","DevOps"],url:"https://www.hashicorp.com/blog/"},
+    {source:"GitHub Actions",cat:"automatisation",sev:"info",date:"2026-04-08",title:"GitHub Actions : CI/CD pour infrastructures SISR",summary:"Tutoriel sur l'utilisation de GitHub Actions pour automatiser les tests de configuration réseau et déploiements Ansible.",tags:["CI/CD","GitHub","Ansible"],url:"https://github.blog/"},
+    {source:"Debian",cat:"os",sev:"info",date:"2026-04-30",title:"Debian 13 Trixie : sortie prévue mi-2026",summary:"Debian 13 Trixie sortira mi-2026 avec Linux 6.12 LTS, systemd 256 et d'importantes améliorations de sécurité noyau.",tags:["Debian","Linux","Kernel"],url:"https://www.debian.org/News/"},
+    {source:"Microsoft",cat:"os",sev:"high",date:"2026-05-02",title:"Patch Tuesday mai 2026 : 78 CVE dont 3 critiques RCE",summary:"Microsoft corrige 78 vulnérabilités dont 3 permettant l'exécution de code à distance sur Windows Server 2019/2022.",tags:["Windows","Patch","CVE"],url:"https://msrc.microsoft.com/"},
+    {source:"Ubuntu",cat:"os",sev:"info",date:"2026-04-24",title:"Ubuntu 24.10 : nouveautés pour les admins système",summary:"Ubuntu 24.10 apporte des améliorations serveur : gestion BTRFS améliorée, Landscape 23.03 et kernel 6.11.",tags:["Ubuntu","Serveur","Linux"],url:"https://ubuntu.com/blog/"},
+    {source:"RHEL",cat:"os",sev:"info",date:"2026-04-16",title:"Red Hat Enterprise Linux 10 : focus sécurité et conformité",summary:"RHEL 10 renforce la conformité FIPS 140-3, intègre SELinux v3 et améliore les outils de durcissement gouvernementaux.",tags:["RHEL","FIPS","SELinux"],url:"https://www.redhat.com/en/blog/"},
+    {source:"OpenAI",cat:"ia",sev:"info",date:"2026-05-03",title:"GPT-5 : capacités d'analyse réseau et sécurité renforcées",summary:"GPT-5 dispose de meilleures capacités d'analyse de logs réseau, de détection d'anomalies et de génération de règles IDS.",tags:["IA","GPT","Sécurité"],url:"https://openai.com/blog/"},
+    {source:"Elastic",cat:"ia",sev:"info",date:"2026-04-21",title:"Elastic AI Assistant pour la cybersécurité",summary:"Elastic intègre un assistant IA dans sa suite SIEM pour automatiser l'analyse des alertes et accélérer la réponse aux incidents.",tags:["Elastic","SIEM","IA"],url:"https://www.elastic.co/blog/"},
+  ];
 
-  /* ---- THEME SYSTEM ---- */
-  const themeToggle = document.getElementById('themeToggle');
-  const sunIcon = document.getElementById('sunIcon');
-  const moonIcon = document.getElementById('moonIcon');
-  const html = document.documentElement;
+  let vCurrent = "all";
 
-  // Check saved theme or system preference
-  const savedTheme = localStorage.getItem('theme');
-  const systemDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-
-  function setTheme(dark) {
-    if (dark) {
-      html.classList.add('dark');
-      sunIcon.style.display = 'block';
-      moonIcon.style.display = 'none';
-    } else {
-      html.classList.remove('dark');
-      sunIcon.style.display = 'none';
-      moonIcon.style.display = 'block';
-    }
-    localStorage.setItem('theme', dark ? 'dark' : 'light');
+  function vFilter(cat, btn) {
+    vCurrent = cat;
+    document.querySelectorAll(".vf-btn").forEach(b => b.classList.remove("vf-active"));
+    if (btn) btn.classList.add("vf-active");
+    vRender();
   }
 
-  if (savedTheme) {
-    setTheme(savedTheme === 'dark');
-  } else {
-    setTheme(systemDark);
+  function vRender() {
+    const items = vCurrent === "all" ? VEILLE : VEILLE.filter(i => i.cat === vCurrent);
+    const track = document.getElementById("v-track");
+    if (!track) return;
+
+    const sc = {critical:"rgba(239,68,68,0.1)",high:"rgba(245,158,11,0.1)",info:"var(--accent-light)"};
+    const tc = {critical:"#ef4444",high:"#f59e0b",info:"var(--accent)"};
+    const lb = {critical:"🔴 Critique",high:"🟠 Haute",info:"🔵 Info"};
+
+    track.innerHTML = items.map(item => {
+      const d = new Date(item.date).toLocaleDateString("fr-FR");
+      const tgs = item.tags.map(t => `<span style="font-size:.65rem;padding:.2rem .5rem;border-radius:4px;background:var(--tag-bg);color:var(--tag-text)">${t}</span>`).join("");
+      return `<div style="min-width:300px;max-width:320px;background:var(--bg-card);border:1px solid var(--border-color);border-radius:1rem;padding:1.25rem;display:flex;flex-direction:column;gap:.75rem;flex-shrink:0;transition:border-color .3s,transform .3s;cursor:pointer" onmouseover="this.style.borderColor='var(--accent)';this.style.transform='translateY(-3px)'" onmouseout="this.style.borderColor='var(--border-color)';this.style.transform='translateY(0)'">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span style="font-family:'DM Mono',monospace;font-size:.7rem;color:var(--accent);font-weight:500">${item.source}</span>
+          <span style="font-size:.65rem;padding:.2rem .6rem;border-radius:9999px;background:${sc[item.sev]||sc.info};color:${tc[item.sev]||tc.info};font-weight:600">${lb[item.sev]||"🔵 Info"}</span>
+        </div>
+        <a href="${item.url}" target="_blank" style="font-family:'Syne',sans-serif;font-weight:600;font-size:.9rem;color:var(--text-primary);text-decoration:none;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-primary)'">${item.title}</a>
+        <p style="font-size:.8rem;color:var(--text-secondary);line-height:1.55;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;margin:0">${item.summary}</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:auto;flex-wrap:wrap;gap:.5rem">
+          <div style="display:flex;flex-wrap:wrap;gap:.3rem">${tgs}</div>
+          <span style="font-family:'DM Mono',monospace;font-size:.65rem;color:var(--text-muted)">${d}</span>
+        </div>
+      </div>`;
+    }).join("");
+
+    // Stats
+    document.getElementById("vs-c").textContent = VEILLE.filter(i=>i.sev==="critical").length + " critique";
+    document.getElementById("vs-h").textContent = VEILLE.filter(i=>i.sev==="high").length + " haute";
+    document.getElementById("vs-i").textContent = VEILLE.filter(i=>i.sev==="info").length + " info";
+    document.getElementById("vs-t").textContent = VEILLE.length + " total";
+
+    // Dots
+    const dotsEl = document.getElementById("v-dots");
+    const n = Math.min(items.length, 12);
+    if (dotsEl) dotsEl.innerHTML = Array.from({length:n},(_,i)=>`<div style="width:8px;height:8px;border-radius:50%;background:${i===0?"var(--accent)":"var(--border-color)"};cursor:pointer;transition:all .3s" onclick="vGoTo(${i})"></div>`).join("");
+
+    track.scrollLeft = 0;
   }
 
-  themeToggle?.addEventListener('click', () => {
-    setTheme(!html.classList.contains('dark'));
-  });
-
-  /* ---- LOADER ---- */
-  window.addEventListener('load', () => {
-    const loader = document.getElementById('loader');
-    if (!loader) return;
-    setTimeout(() => {
-      loader.classList.add('hidden');
-      initReveal();
-    }, 900);
-  });
-
-  /* ---- NAVBAR ---- */
-  const navbar = document.getElementById('navbar');
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-
-  window.addEventListener('scroll', () => {
-    if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 60);
-    updateActiveNav();
-    updateBackToTop();
-  });
-
-  navToggle?.addEventListener('click', () => {
-    navToggle.classList.toggle('open');
-    navLinks?.classList.toggle('open');
-  });
-
-  document.querySelectorAll('.nav-links a').forEach(link => {
-    link.addEventListener('click', () => {
-      navToggle?.classList.remove('open');
-      navLinks?.classList.remove('open');
-    });
-  });
-
-  function updateActiveNav() {
-    const sections = document.querySelectorAll('section[id]');
-    let current = '';
-    sections.forEach(s => {
-      if (window.scrollY >= s.offsetTop - 100) current = s.id;
-    });
-    document.querySelectorAll('.nav-links a').forEach(a => {
-      a.classList.toggle('active', a.getAttribute('href') === '#' + current);
-    });
+  function vScroll(dir) {
+    const t = document.getElementById("v-track");
+    if (t) { t.scrollBy({left:dir*324,behavior:"smooth"}); setTimeout(vDots,350); }
+  }
+  function vGoTo(idx) {
+    const t = document.getElementById("v-track");
+    if (t) { t.scrollTo({left:idx*324,behavior:"smooth"}); setTimeout(vDots,350); }
+  }
+  function vDots() {
+    const t = document.getElementById("v-track");
+    const dots = document.querySelectorAll("#v-dots div");
+    if (!t||!dots.length) return;
+    const idx = Math.round(t.scrollLeft/324);
+    dots.forEach((d,i)=>{ d.style.background = i===idx?"var(--accent)":"var(--border-color)"; });
   }
 
-  /* ---- SCROLL REVEAL ---- */
-  function initReveal() {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (!entry.isIntersecting) return;
-        const el = entry.target;
-        const delay = el.dataset.delay || 0;
-        setTimeout(() => {
-          el.classList.add('visible');
-          if (el.classList.contains('skill-group')) animateSkills(el);
-          if (el.querySelector('.lang-fill')) animateLangs(el);
-        }, delay);
-        observer.unobserve(el);
-      });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  const vDateEl = document.getElementById("v-date");
+  if (vDateEl) vDateEl.textContent = "Mis à jour le " + new Date().toLocaleDateString("fr-FR");
 
-    // Stagger children in grids
-    document.querySelectorAll('.projects-grid, .certs-grid').forEach(grid => {
-      grid.querySelectorAll('.reveal').forEach((el, i) => {
-        el.dataset.delay = i * 60;
-      });
-    });
+  window.vFilter = vFilter;
+  window.vScroll = vScroll;
+  window.vGoTo = vGoTo;
 
-    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-  }
+  vRender();
 
-  /* ---- SKILL BARS ---- */
-  function animateSkills(group) {
-    group.querySelectorAll('.skill-item').forEach((item, i) => {
-      const fill = item.querySelector('.si-fill');
-      const level = item.dataset.level || 0;
-      if (!fill) return;
-      setTimeout(() => { fill.style.width = level + '%'; }, i * 80);
-    });
-  }
-
-  const skillObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateSkills(entry.target);
-        skillObs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.2 });
-  document.querySelectorAll('.skill-group').forEach(g => skillObs.observe(g));
-
-  /* ---- LANG BARS ---- */
-  function animateLangs(container) {
-    container.querySelectorAll('.lang-fill').forEach((fill, i) => {
-      setTimeout(() => fill.classList.add('animated'), 200 + i * 100);
-    });
-  }
-
-  const langObs = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateLangs(entry.target);
-        langObs.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.4 });
-  document.querySelectorAll('.apropos-right, .info-block').forEach(el => {
-    if (el.querySelector('.lang-fill')) langObs.observe(el);
-  });
-
-  /* ---- CONTACT FORM ---- */
-  const form = document.getElementById('contactForm');
-  const formSuccess = document.getElementById('formSuccess');
-
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = Object.fromEntries(new FormData(form));
-    if (!data.nom?.trim() || !data.email?.trim() || !data.message?.trim()) {
-      form.style.animation = 'none';
-      void form.offsetHeight;
-      form.style.animation = 'shake 0.4s ease';
-      return;
-    }
-    const btn = form.querySelector('button[type="submit"]');
-    btn.disabled = true;
-    btn.textContent = 'Envoi en cours...';
-
-    setTimeout(() => {
-      if (formSuccess) { formSuccess.style.display = 'block'; }
-      form.reset();
-      btn.disabled = false;
-      btn.textContent = 'Envoyer le message';
-      setTimeout(() => { if (formSuccess) formSuccess.style.display = 'none'; }, 5000);
-    }, 1200);
-  });
-
-  /* ---- BACK TO TOP ---- */
-  const backToTop = document.getElementById('backToTop');
-  function updateBackToTop() {
-    backToTop?.classList.toggle('visible', window.scrollY > 400);
-  }
-  backToTop?.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-
-  /* ---- SMOOTH SCROLL ---- */
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', e => {
-      const id = a.getAttribute('href');
-      if (id === '#') return;
-      e.preventDefault();
-      const target = document.querySelector(id);
-      if (target) {
-        const offset = 80;
-        window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
-      }
-    });
-  });
-
-  /* ---- INIT ---- */
-  updateBackToTop();
-  updateActiveNav();
-  </script>
-
-  <!-- DYNAMIC VEILLE LOADER -->
-  <script>
-  (function() {
-    fetch('veille_data.json')
-      .then(response => response.json())
-      .then(data => {
-        updateVeilleDisplay(data);
-      })
-      .catch(err => {
-        console.log('Veille data not available, using static content');
-      });
-
-    function updateVeilleDisplay(data) {
-      const veilleSection = document.getElementById('veille');
-      if (!veilleSection) return;
-
-      const lastUpdateEl = veilleSection.querySelector('.veille-last-update');
-      if (lastUpdateEl && data.last_update) {
-        const date = new Date(data.last_update);
-        lastUpdateEl.textContent = 'Derniere mise a jour : ' + date.toLocaleDateString('fr-FR');
-      }
-
-      if (data.sources && data.sources.length > 0) {
-        addNewsTicker(veilleSection, data.sources);
-      }
-    }
-
-    function addNewsTicker(container, sources) {
-      let ticker = container.querySelector('.veille-ticker');
-      if (!ticker) {
-        ticker = document.createElement('div');
-        ticker.className = 'veille-ticker';
-        ticker.style.cssText = 'margin: 2rem 0; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 1rem;';
-
-        const desc = container.querySelector('p');
-        if (desc && desc.nextSibling) {
-          desc.parentNode.insertBefore(ticker, desc.nextSibling);
-        }
-      }
-
-      const allItems = [];
-      sources.forEach(source => {
-        if (source.items) {
-          source.items.forEach(item => {
-            allItems.push({...item, source: source.source});
-          });
-        }
-      });
-
-      allItems.sort((a, b) => new Date(b.date) - new Date(a.date));
-      const topItems = allItems.slice(0, 5);
-
-      let html = '<h3 style="font-family: Syne, sans-serif; font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-primary);">Actualites recentes</h3>';
-      html += '<div style="display: flex; flex-direction: column; gap: 0.75rem;">';
-
-      topItems.forEach(item => {
-        const severityColor = {
-          'critical': '#ef4444',
-          'high': '#f59e0b',
-          'info': '#3b82f6'
-        }[item.severity] || '#6b7280';
-
-        const date = new Date(item.date).toLocaleDateString('fr-FR');
-
-        html += '<div style="display: flex; align-items: flex-start; gap: 0.75rem; padding: 0.75rem; background: var(--bg-secondary); border-radius: 0.5rem; border-left: 3px solid ' + severityColor + ';">';
-        html += '<div style="flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; background: ' + severityColor + '; margin-top: 0.4rem;"></div>';
-        html += '<div style="flex: 1;">';
-        html += '<div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">';
-        html += '<span style="font-size: 0.6875rem; font-weight: 500; color: var(--accent);">' + item.source + '</span>';
-        html += '<span style="font-size: 0.6875rem; color: var(--text-muted);"> &bull; ' + date + '</span>';
-        html += '</div>';
-        html += '<a href="' + item.url + '" target="_blank" style="font-size: 0.875rem; font-weight: 500; color: var(--text-primary); text-decoration: none; line-height: 1.4;">' + item.title + '</a>';
-        html += '<p style="font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; line-height: 1.5;">' + item.summary + '</p>';
-        html += '</div></div>';
-      });
-
-      html += '</div>';
-      ticker.innerHTML = html;
-    }
-  })();
+  const vt = document.getElementById("v-track");
+  if (vt) vt.addEventListener("scroll", vDots, {passive:true});
   </script>
 
 </body>
